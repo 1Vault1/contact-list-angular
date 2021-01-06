@@ -1,0 +1,76 @@
+<form class="form" [formGroup]="form">
+  <input type="hidden">
+
+  <div class="form-control">
+    <label>Name</label>
+    <input type="text" placeholder="Name" formControlName="name">
+    <div
+      *ngIf="form.get('name').invalid && form.get('name').touched"
+      class="validation"
+    >
+      <small *ngIf="form.get('name').errors.required">The field cannot be empty</small>
+    </div>
+  </div>
+
+  <div class="form-control">
+    <label>Email</label>
+    <input type="text" placeholder="Email" formControlName="email">
+    <div
+      *ngIf="form.get('email').invalid && form.get('email').touched"
+      class="validation"
+    >
+      <small *ngIf="form.get('email').errors.required">The field cannot be empty</small>
+      <small *ngIf="form.get('email').errors.email">Enter correct email</small>
+    </div>
+  </div>
+
+  <div class="form-control">
+    <label>Phone</label>
+    <input type="text" placeholder="Phone" formControlName="phone">
+    <div
+      *ngIf="form.get('phone').invalid && form.get('phone').touched"
+      class="validation"
+    >
+      <small *ngIf="form.get('phone').errors.required">The field cannot be empty</small>
+      <small *ngIf="form.get('phone').errors.minlength">
+        Length must be at least {{form.get('phone').errors.minlength.requiredLength}}
+      </small>
+    </div>
+  </div>
+
+  <button class="btn" type="submit" (click)="addContact()" [disabled]="form.invalid">Submit</button>
+</form>
+
+<div class="contact-list">
+  <div class="row head-row">
+    <div class="head-item">
+      <p>Name</p>
+    </div>
+    <div class="head-item">
+      <p>Email</p>
+    </div>
+    <div class="head-item">
+      <p>Phone</p>
+    </div>
+    <div class="head-item">
+      <p>Action</p>
+    </div>
+  </div>
+
+  <div class="list" *ngIf="contacts.length; else noContacts">
+    <div class="row" *ngFor="let contact of contacts">
+      <div class="item">{{contact.name | titlecase}}</div>
+      <div class="item">{{contact.email}}</div>
+      <div class="item">{{contact.phone}}</div>
+      <div class="item">
+        <button class="remove-btn" (click)="removeContact(contact.id)">X</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noContacts>
+    <div class="no-contact">
+      <p>No contacts</p>
+    </div>
+  </ng-template>
+</div>
